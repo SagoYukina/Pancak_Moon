@@ -3,13 +3,16 @@ using UnityEngine; // Unityの基本機能を使えるようにする
 public class PlayerController : MonoBehaviour // MonoBehaviourを継承してUnityのオブジェクトとして動かす
 {
     [SerializeField] private float jumpForce = 10f; // ジャンプの強さ（Inspectorで調整できる）
+    [SerializeField] private Sprite idleSprite;     // 地面にいる時のスプライト
+    [SerializeField] private Sprite jumpSprite;     // ジャンプ中のスプライト
 
-    private Rigidbody2D rb;       // 物理演算コンポーネントを入れる変数
-    private bool isGrounded = false; // 地面またはパンケーキの上にいるかどうか
+    private Rigidbody2D rb;                // 物理演算コンポーネントを入れる変数
+    private bool isGrounded = false;       // 地面またはパンケーキの上にいるかどうか
+    [SerializeField] private SpriteRenderer spriteRenderer; // VisualのSpriteRenderer
 
-    void Start() // ゲーム開始時に1回だけ呼ばれる
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // 自分自身のRigidbody2Dを取得して変数に入れる
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update() // 毎フレーム呼ばれる
@@ -21,7 +24,7 @@ public class PlayerController : MonoBehaviour // MonoBehaviourを継承してUni
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
-            // SpawnPancake の呼び出しを削除
+            spriteRenderer.sprite = jumpSprite; // ジャンプ中の画像に切り替え
         }
     }
 
@@ -37,6 +40,7 @@ public class PlayerController : MonoBehaviour // MonoBehaviourを継承してUni
                 {
                     isGrounded = true;
                     pc.OnLanded();
+                    spriteRenderer.sprite = idleSprite; // 着地したら待機画像に切り替え
                     return;
                 }
             }
@@ -59,6 +63,7 @@ public class PlayerController : MonoBehaviour // MonoBehaviourを継承してUni
         {
             // 地面など
             isGrounded = true;
+            spriteRenderer.sprite = idleSprite; // 地面着地も待機画像に切り替え
         }
     }
 }
