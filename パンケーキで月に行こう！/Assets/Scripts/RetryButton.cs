@@ -10,4 +10,9 @@ public class RetryButton : MonoBehaviour
         // 現在のシーンを再読み込みしてゲームをリセット
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    // タイトルに戻る
+    public void OnTitleClicked()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
 }

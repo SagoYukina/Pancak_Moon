@@ -48,20 +48,20 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // PlayerPrefsからクリア枚数を読み込む（0ならエンドレス）
         int savedClearScore = PlayerPrefs.GetInt("ClearScore", 10);
         if (savedClearScore > 0)
             clearScore = savedClearScore;
         else
-            clearScore = int.MaxValue; // エンドレスは事実上無限
+            clearScore = int.MaxValue;
 
-        // 最初はゲームオーバーパネルを非表示
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
 
-        // 最初はリザルトパネルを非表示
         if (resultPanel != null)
             resultPanel.SetActive(false);
+
+        // ゲーム開始時に最初のパンケーキを自動で出す
+        Invoke("SpawnPancake", 0.5f);
     }
     // パンケーキを生成する
     public void SpawnPancake()
@@ -75,7 +75,6 @@ public class GameManager : MonoBehaviour
         canSpawn = false;
     }
 
-    // パンケーキに乗った時の処理
     public void OnPancakeLanded()
     {
         score++;
@@ -83,7 +82,9 @@ public class GameManager : MonoBehaviour
         canSpawn = true;
         Debug.Log("スコア: " + score);
 
-        // クリアスコアに達したらリザルト画面を表示
+        // 次のパンケーキを自動で出す
+        Invoke("SpawnPancake", 1.0f);
+
         if (score >= clearScore)
         {
             isGameOver = true;
@@ -95,10 +96,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // パンケーキを逃した時の処理
     public void OnPancakeMissed()
     {
         canSpawn = true;
+        // 次のパンケーキを自動で出す
+        Invoke("SpawnPancake", 1.0f);
     }
 
     // ゲームオーバー処理
@@ -125,6 +127,7 @@ public class GameManager : MonoBehaviour
         {
             // ライフが残っていれば続行
             canSpawn = true;
+            Invoke("SpawnPancake", 1.5f); // 次のパンケーキを出す
         }
     }
 }

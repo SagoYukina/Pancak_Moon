@@ -19,35 +19,46 @@ public class PlayerController : MonoBehaviour // MonoBehaviourを継承してUni
         // 地面にいる時、かつSpaceキーまたはマウスクリックが押された時
         if (isGrounded && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); // 上方向に速度を与えてジャンプ
-            isGrounded = false;                    // 空中にいる状態にする
-            GameManager.Instance.SpawnPancake();   // パンケーキを生成するよう指示する
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            isGrounded = false;
+            // SpawnPancake の呼び出しを削除
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision) // 何かに触れた瞬間に呼ばれる
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        // 触れたオブジェクトにPancakeControllerがついているか確認する
         PancakeController pc = collision.gameObject.GetComponent<PancakeController>();
-
-        if (pc != null) // パンケーキに触れた場合
+        if (pc != null)
         {
-            // 接触点のそれぞれについて、どの方向から当たったか調べる
             foreach (ContactPoint2D contact in collision.contacts)
             {
-                if (contact.normal.y > 0.5f) // 法線が上向き = 上から乗った
+                // 上から乗った場合
+                if (contact.normal.y > 0.5f)
                 {
-                    isGrounded = true;  // 着地状態にする
-                    pc.OnLanded();      // パンケーキ側に「乗られた」と伝える
-                    return;             // ここで処理を終了する
+                    isGrounded = true;
+                    pc.OnLanded();
+                    return;
                 }
             }
-            // 上から乗れなかった = 横から当たった → ゲームオーバー
-            GameManager.Instance.GameOver();
+            // 横から当たった場合
+            if (GameManager.Instance.life <= 1)
+            {
+                // ライフがなくなる → そのまま落ちていく
+                GameManager.Instance.GameOver();
+            }
+            else
+            {
+                // ライフが残る → パンケーキを止めて消す
+                pc.Stop();
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+                Destroy(collision.gameObject);
+                GameManager.Instance.GameOver();
+            }
         }
-        else // パンケーキ以外（地面など）に触れた場合
+        else
         {
-            isGrounded = true; // 着地状態にする
+            // 地面など
+            isGrounded = true;
         }
     }
 }

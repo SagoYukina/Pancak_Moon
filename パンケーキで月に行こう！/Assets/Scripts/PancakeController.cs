@@ -25,4 +25,9 @@ public class PancakeController : MonoBehaviour // MonoBehaviourを継承してUn
         landed = true;                          // 乗られた状態にする（移動を止める）
         GameManager.Instance.OnPancakeLanded(); // ゲームマネージャーに「乗られた」と伝える
     }
+    // パンケーキの移動を即座に止める
+    public void Stop()
+    {
+        landed = true;
+    }
 }
