@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 124dd64bdd7674a41a1d88621c18a674
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - pancakePrefab: {fileID: 6528962969941036450, guid: fd0b1cde12fdd436cbf7a41fd9c24a14, type: 3}
+  - gameOverPanel: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
