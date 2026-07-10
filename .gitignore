@@ -7,3 +7,15 @@
 **/[Ll]ogs/
 **/[Uu]ser[Ss]ettings/
 **/*.log
+
+# Visual Studio generated files
+パンケーキで月に行こう！/.vs/
+パンケーキで月に行こう！/*.sln
+
+# Ignore Visual Studio cache folders
+.vs/
+**/.vs/
+*.sln
+*.slnx
+*.user
+.vsconfig
