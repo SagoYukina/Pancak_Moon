@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: cf90d2938b00fae4e953cf0bb3a313d3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - groundBgm: {fileID: 8300000, guid: 185433a8a60e08649a2ea909dba1fed2, type: 3}
+  - cloudBgm: {fileID: 8300000, guid: 5563aa51886a36d46b415892fd8779df, type: 3}
+  - spaceBgm: {fileID: 8300000, guid: 964b875bec6f2e84d82f2f66a244aebe, type: 3}
+  - moonBgm: {fileID: 8300000, guid: fbfbfc5365bee0d43a3c6ca3e64608cc, type: 3}
+  - jumpSe: {fileID: 8300000, guid: 116b285ad79c79341818c3d68e6585c0, type: 3}
+  - stageChangeSe: {fileID: 8300000, guid: 73a28949f4434644d8f12129047c3718, type: 3}
+  - lifeZeroSe: {fileID: 8300000, guid: d17943b6ca7109e4c867058d27b1838c, type: 3}
+  - damageSe: {fileID: 8300000, guid: 29c0148baba2dd64499463c540a3a404, type: 3}
+  - buttonClickSe: {fileID: 8300000, guid: 4f96f302d46e0b54f8c6a0b8499569c4, type: 3}
+  - clearSe: {fileID: 8300000, guid: c964b3cad8269294aa712a98bd7cdfc9, type: 3}
+  - gameOverSe: {fileID: 8300000, guid: 13d2dedddab752149afd24c741ba2a6e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
