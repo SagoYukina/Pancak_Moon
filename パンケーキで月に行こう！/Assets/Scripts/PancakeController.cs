@@ -1,31 +1,39 @@
-using UnityEngine; // Unityの基本機能を使えるようにする
+using UnityEngine;
 
-public class PancakeController : MonoBehaviour // MonoBehaviourを継承してUnityのオブジェクトとして動かす
+public class PancakeController : MonoBehaviour
 {
-    [SerializeField] private float speed = 3f; // 左に動く速さ（Inspectorで調整できる）
-    private bool landed = false;               // 少年が乗ったかどうかのフラグ
+    [SerializeField] private float minSpeed = 2f; // 速さの最小値
+    [SerializeField] private float maxSpeed = 6f; // 速さの最大値
+    [SerializeField] private float speedIncreasePerScore = 0.1f; // スコア1につき加算される速さ
+    private float speed;
+    private bool landed = false;
 
-    void Update() // 毎フレーム呼ばれる
+    void Start()
     {
-        if (landed) return; // 乗られていたら動かさない
+        // スコアに応じてmin/maxを底上げしてからランダムで決める
+        float bonus = GameManager.Instance.score * speedIncreasePerScore;
+        speed = Random.Range(minSpeed + bonus, maxSpeed + bonus);
+    }
 
-        // 左方向に speed の速さで移動する（Time.deltaTimeをかけることでフレームレートに依存しない動きにする）
+    void Update()
+    {
+        if (landed) return;
         transform.position += Vector3.left * speed * Time.deltaTime;
 
-        if (transform.position.x < -10f) // 画面左端より外に出たら
+        if (transform.position.x < -10f)
         {
-            GameManager.Instance.OnPancakeMissed(); // ゲームマネージャーに「パンケーキが外に出た」と伝える
-            Destroy(gameObject);                    // このオブジェクトを削除する
+            GameManager.Instance.OnPancakeMissed();
+            Destroy(gameObject);
         }
     }
 
-    public void OnLanded() // 少年が乗った時にPlayerControllerから呼ばれるメソッド
+    public void OnLanded()
     {
-        if (landed) return; // すでに乗られていたら何もしない（二重カウント防止）
-        landed = true;                          // 乗られた状態にする（移動を止める）
-        GameManager.Instance.OnPancakeLanded(); // ゲームマネージャーに「乗られた」と伝える
+        if (landed) return;
+        landed = true;
+        GameManager.Instance.OnPancakeLanded();
     }
-    // パンケーキの移動を即座に止める
+
     public void Stop()
     {
         landed = true;
