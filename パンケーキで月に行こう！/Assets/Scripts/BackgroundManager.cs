@@ -3,6 +3,12 @@ using UnityEngine;
 // スコアに応じて背景を切り替えるスクリプト
 public class BackgroundManager : MonoBehaviour
 {
+    // シングルトン（他のスクリプトから参照できるようにする）
+    public static BackgroundManager Instance;
+
+    // 現在宇宙ゾーン（背景⑤以降）かどうかを外部から参照できる
+    public bool isSpaceZone = false;
+
     // 背景のSpriteRendererコンポーネント
     [SerializeField] private SpriteRenderer backgroundRenderer;
 
@@ -14,6 +20,11 @@ public class BackgroundManager : MonoBehaviour
 
     // 現在表示中の背景インデックス
     private int currentIndex = 0;
+
+    void Awake()
+    {
+        Instance = this; // シングルトンを登録
+    }
 
     void Update()
     {
@@ -31,5 +42,8 @@ public class BackgroundManager : MonoBehaviour
             currentIndex = newIndex;
             backgroundRenderer.sprite = backgrounds[currentIndex];
         }
+
+        // 背景⑤以降なら宇宙ゾーンフラグをONにする
+        isSpaceZone = (currentIndex >= 3);
     }
 }
