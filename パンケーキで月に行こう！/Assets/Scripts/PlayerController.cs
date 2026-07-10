@@ -45,6 +45,9 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
         {
+            // ジャンプ音を鳴らす
+            AudioManager.Instance?.PlayJump();
+
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
             spriteRenderer.sprite = GetJumpSprite();
@@ -66,6 +69,7 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
             }
+
             if (GameManager.Instance.life <= 1)
             {
                 GameManager.Instance.GameOver();
