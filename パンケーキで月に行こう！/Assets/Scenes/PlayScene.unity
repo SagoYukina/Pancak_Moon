@@ -1926,6 +1926,8 @@ MonoBehaviour:
   gameOverPanel: {fileID: 2061609481}
   resultPanel: {fileID: 1448197496}
   resultText: {fileID: 2206870}
+  scoreUI: {fileID: 1009319891}
+  lifeUI: {fileID: 1640314828}
 --- !u!114 &1320797717
 MonoBehaviour:
   m_ObjectHideFlags: 0

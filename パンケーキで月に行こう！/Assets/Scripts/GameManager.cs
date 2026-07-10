@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     // 残りライフ
     public int life = 3;
 
-    // クリアに必要なパンケーキの枚数（仮）
+    // クリアに必要なパンケーキの枚数
     public int clearScore = 10;
 
     // パンケーキのPrefab
@@ -36,6 +36,12 @@ public class GameManager : MonoBehaviour
 
     // リザルトのテキスト
     [SerializeField] private TextMeshProUGUI resultText;
+
+    // スコア表示UI（クリア・ゲームオーバー時に非表示にする）
+    [SerializeField] private GameObject scoreUI;
+
+    // ライフ表示UI（クリア・ゲームオーバー時に非表示にする）
+    [SerializeField] private GameObject lifeUI;
 
     // 次のパンケーキを出してよいか
     private bool canSpawn = true;
@@ -63,6 +69,14 @@ public class GameManager : MonoBehaviour
         // ゲーム開始時に最初のパンケーキを自動で出す
         Invoke("SpawnPancake", 0.5f);
     }
+
+    // スコアとライフのUIを非表示にする
+    private void HideGameUI()
+    {
+        if (scoreUI != null) scoreUI.SetActive(false); // スコア表示を隠す
+        if (lifeUI != null) lifeUI.SetActive(false);   // ライフ表示を隠す
+    }
+
     // パンケーキを生成する
     public void SpawnPancake()
     {
@@ -82,17 +96,21 @@ public class GameManager : MonoBehaviour
         canSpawn = true;
         Debug.Log("スコア: " + score);
 
-        // 次のパンケーキを自動で出す
-        Invoke("SpawnPancake", 1.0f);
-
         if (score >= clearScore)
         {
+            // クリア処理
             isGameOver = true;
+            HideGameUI(); // スコア・ライフ表示を隠す
             if (resultPanel != null)
             {
                 resultPanel.SetActive(true);
                 resultText.text = "クリア！\nスコア: " + score;
             }
+        }
+        else
+        {
+            // 次のパンケーキを自動で出す
+            Invoke("SpawnPancake", 1.0f);
         }
     }
 
@@ -117,6 +135,7 @@ public class GameManager : MonoBehaviour
         if (life <= 0)
         {
             isGameOver = true;
+            HideGameUI(); // スコア・ライフ表示を隠す
             Debug.Log("ゲームオーバー！スコア: " + score);
 
             // ゲームオーバーパネルを表示
@@ -127,7 +146,7 @@ public class GameManager : MonoBehaviour
         {
             // ライフが残っていれば続行
             canSpawn = true;
-            Invoke("SpawnPancake", 1.5f); // 次のパンケーキを出す
+            Invoke("SpawnPancake", 1.5f);
         }
     }
 }
