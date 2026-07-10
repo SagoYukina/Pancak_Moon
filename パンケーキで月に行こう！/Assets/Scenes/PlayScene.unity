@@ -1523,6 +1523,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &897017821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 897017823}
+  - component: {fileID: 897017822}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &897017822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897017821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf90d2938b00fae4e953cf0bb3a313d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundBgm: {fileID: 8300000, guid: 185433a8a60e08649a2ea909dba1fed2, type: 3}
+  cloudBgm: {fileID: 8300000, guid: 5563aa51886a36d46b415892fd8779df, type: 3}
+  spaceBgm: {fileID: 8300000, guid: 964b875bec6f2e84d82f2f66a244aebe, type: 3}
+  moonBgm: {fileID: 8300000, guid: fbfbfc5365bee0d43a3c6ca3e64608cc, type: 3}
+  bgmVolume: 0.35
+  jumpSe: {fileID: 8300000, guid: 116b285ad79c79341818c3d68e6585c0, type: 3}
+  stageChangeSe: {fileID: 8300000, guid: 73a28949f4434644d8f12129047c3718, type: 3}
+  lifeZeroSe: {fileID: 8300000, guid: d17943b6ca7109e4c867058d27b1838c, type: 3}
+  damageSe: {fileID: 8300000, guid: 29c0148baba2dd64499463c540a3a404, type: 3}
+  buttonClickSe: {fileID: 8300000, guid: 4f96f302d46e0b54f8c6a0b8499569c4, type: 3}
+  clearSe: {fileID: 8300000, guid: c964b3cad8269294aa712a98bd7cdfc9, type: 3}
+  gameOverSe: {fileID: 8300000, guid: 13d2dedddab752149afd24c741ba2a6e, type: 3}
+  seVolume: 0.8
+--- !u!4 &897017823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897017821}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.614294, y: -0.01682365, z: -0.020958362}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1009319891
 GameObject:
   m_ObjectHideFlags: 0
@@ -2738,3 +2795,4 @@ SceneRoots:
   - {fileID: 1320797715}
   - {fileID: 1054175238}
   - {fileID: 1268856295}
+  - {fileID: 897017823}
