@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 
     // ライフ表示UI（クリア・ゲームオーバー時に非表示にする）
     [SerializeField] private GameObject lifeUI;
+    [SerializeField] private GameObject scoreBord; // スコアボード背景
 
     // 次のパンケーキを出してよいか
     private bool canSpawn = true;
@@ -75,6 +76,7 @@ public class GameManager : MonoBehaviour
     {
         if (scoreUI != null) scoreUI.SetActive(false); // スコア表示を隠す
         if (lifeUI != null) lifeUI.SetActive(false);   // ライフ表示を隠す
+        if (scoreBord != null) scoreBord.SetActive(false); // スコアボード背景も隠す
     }
 
     // パンケーキを生成する

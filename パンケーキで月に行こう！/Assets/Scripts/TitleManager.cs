@@ -16,14 +16,14 @@ public class TitleManager : MonoBehaviour
     // 宇宙モード（50枚）が選ばれた時
     public void OnNormalClicked()
     {
-        PlayerPrefs.SetInt("ClearScore", 50);
+        PlayerPrefs.SetInt("ClearScore", 40);
         SceneManager.LoadScene("PlayScene");
     }
 
     // 月モード（100枚）が選ばれた時
     public void OnHardClicked()
     {
-        PlayerPrefs.SetInt("ClearScore", 100);
+        PlayerPrefs.SetInt("ClearScore", 70);
         SceneManager.LoadScene("PlayScene");
     }
 
