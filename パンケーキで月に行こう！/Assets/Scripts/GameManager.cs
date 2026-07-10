@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI; // ImageコンポーネントはUnityEngine.UIにある
 using TMPro; // TextMeshProを使うために必要
 
 // ゲーム全体を管理するシングルトン
@@ -43,6 +44,10 @@ public class GameManager : MonoBehaviour
     // ライフ表示UI（クリア・ゲームオーバー時に非表示にする）
     [SerializeField] private GameObject lifeUI;
     [SerializeField] private GameObject scoreBord; // スコアボード背景
+    [SerializeField] private Sprite resultImageSkyTree;  // スカイツリークリア画像
+    [SerializeField] private Sprite resultImageSpace;    // 宇宙クリア画像
+    [SerializeField] private Sprite resultImageMoon;     // 月クリア画像
+    [SerializeField] private Image resultBackground;     // ResultPanelのImageコンポーネント
 
     // 次のパンケーキを出してよいか
     private bool canSpawn = true;
@@ -108,7 +113,14 @@ public class GameManager : MonoBehaviour
                 resultPanel.SetActive(true);
                 resultText.text = "クリア！\nスコア: " + score;
             }
-        }
+            // クリアスコアに応じてリザルト画像を切り替える
+            if (clearScore <= 20 && resultImageSkyTree != null)
+                resultBackground.sprite = resultImageSkyTree;
+            else if (clearScore <= 40 && resultImageSpace != null)
+                resultBackground.sprite = resultImageSpace;
+            else if (resultImageMoon != null)
+                resultBackground.sprite = resultImageMoon;
+                    }
         else
         {
             // 次のパンケーキを自動で出す
