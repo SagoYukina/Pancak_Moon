@@ -1,58 +1,38 @@
 using UnityEngine;
-using UnityEngine.UI; // ImageコンポーネントはUnityEngine.UIにある
-using TMPro; // TextMeshProを使うために必要
+using UnityEngine.UI;
+using TMPro;
 
-// ゲーム全体を管理するシングルトン
 public class GameManager : MonoBehaviour
 {
-    // 唯一のインスタンスを保持する静的変数
     public static GameManager Instance;
 
-    // パンケーキが積み上がる現在の最上面のY座標
     public float currentSurfaceY = -4.0f;
-
-    // パンケーキ1枚の厚さ
     public float pancakeThickness = 0.3f;
-
-    // ゲームオーバー状態かどうか
     public bool isGameOver = false;
-
-    // 現在のスコア（乗ったパンケーキの枚数）
     public int score = 0;
-
-    // 残りライフ
     public int life = 3;
-
-    // クリアに必要なパンケーキの枚数
     public int clearScore = 10;
 
-    // パンケーキのPrefab
     [SerializeField] private GameObject pancakePrefab;
-
-    // ゲームオーバーパネル
     [SerializeField] private GameObject gameOverPanel;
-
-    // リザルトパネル
     [SerializeField] private GameObject resultPanel;
-
-    // リザルトのテキスト
     [SerializeField] private TextMeshProUGUI resultText;
-
-    // スコア表示UI（クリア・ゲームオーバー時に非表示にする）
     [SerializeField] private GameObject scoreUI;
-
-    // ライフ表示UI（クリア・ゲームオーバー時に非表示にする）
     [SerializeField] private GameObject lifeUI;
-
-    // スコアボード背景
     [SerializeField] private GameObject scoreBord;
 
-    // 次のパンケーキを出してよいか
+    // ResultPanelのImageコンポーネント（背景画像の切り替えに使う）
+    [SerializeField] private Image resultBackground;
+
+    // 難易度別のクリア画像
+    [SerializeField] private Sprite resultImageEasy;   // Easyクリア画像（雲・虹）
+    [SerializeField] private Sprite resultImageNormal; // Normalクリア画像（宇宙）
+    [SerializeField] private Sprite resultImageHard;   // Hardクリア画像（月面）
+
     private bool canSpawn = true;
 
     void Awake()
     {
-        // シングルトンとして自分自身を登録
         Instance = this;
     }
 
@@ -65,17 +45,12 @@ public class GameManager : MonoBehaviour
         else
             clearScore = int.MaxValue;
 
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(false);
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (resultPanel != null) resultPanel.SetActive(false);
 
-        if (resultPanel != null)
-            resultPanel.SetActive(false);
-
-        // ゲーム開始時に最初のパンケーキを自動で出す
         Invoke("SpawnPancake", 0.5f);
     }
 
-    // スコアとライフのUIを非表示にする
     private void HideGameUI()
     {
         if (scoreUI != null) scoreUI.SetActive(false);
@@ -83,13 +58,18 @@ public class GameManager : MonoBehaviour
         if (scoreBord != null) scoreBord.SetActive(false);
     }
 
-    // パンケーキを生成する
+    // 難易度に応じたクリア画像を返す（エンドレスモードはnull）
+    private Sprite GetResultImage()
+    {
+        if (clearScore == int.MaxValue) return null; // エンドレスモードは画像なし
+        if (clearScore <= 20) return resultImageEasy;   // Easy（20枚）
+        if (clearScore <= 50) return resultImageNormal; // Normal（50枚）
+        return resultImageHard;                          // Hard（100枚）以上
+    }
+
     public void SpawnPancake()
     {
-        // 生成不可またはゲームオーバーなら何もしない
         if (!canSpawn || isGameOver) return;
-
-        // 現在の最上面の少し上にパンケーキを出す
         float spawnY = currentSurfaceY + pancakeThickness / 2f;
         Instantiate(pancakePrefab, new Vector3(10f, spawnY, 0f), Quaternion.identity);
         canSpawn = false;
@@ -104,68 +84,63 @@ public class GameManager : MonoBehaviour
 
         if (score >= clearScore)
         {
-            // クリア処理
             isGameOver = true;
             HideGameUI();
-
-            // ゲームクリア音を鳴らす
             AudioManager.Instance?.PlayClear();
 
             if (resultPanel != null)
             {
+                if (resultBackground != null)
+                {
+                    Sprite img = GetResultImage();
+                    if (img != null)
+                    {
+                        // 難易度別画像を設定して完全表示
+                        resultBackground.sprite = img;
+                        resultBackground.color = Color.white;
+                    }
+                    else
+                    {
+                        // エンドレスモードは背景画像を透明にする
+                        resultBackground.color = new Color(1, 1, 1, 0);
+                    }
+                }
+
                 resultPanel.SetActive(true);
                 resultText.text = "クリア！\nスコア: " + score;
             }
         }
         else
         {
-            // 次のパンケーキを自動で出す
             Invoke("SpawnPancake", 1.0f);
         }
-
     }
 
     public void OnPancakeMissed()
     {
         canSpawn = true;
-
-        // 次のパンケーキを自動で出す
         Invoke("SpawnPancake", 1.0f);
     }
 
-    // ゲームオーバー処理
     public void GameOver()
     {
-        // すでにゲームオーバーなら何もしない
         if (isGameOver) return;
 
-        // ライフを1減らす
         life--;
         Debug.Log("ライフ残り: " + life);
 
-        // ライフが0以下になったら本当のゲームオーバー
         if (life <= 0)
         {
-            // ライフ0音を鳴らす
             AudioManager.Instance?.PlayLifeZero();
-
             isGameOver = true;
             HideGameUI();
             Debug.Log("ゲームオーバー！スコア: " + score);
-
-            // ゲームオーバー音を鳴らす
             AudioManager.Instance?.PlayGameOver();
-
-            // ゲームオーバーパネルを表示
-            if (gameOverPanel != null)
-                gameOverPanel.SetActive(true);
+            if (gameOverPanel != null) gameOverPanel.SetActive(true);
         }
         else
         {
-            // ライフが1減った音を鳴らす
             AudioManager.Instance?.PlayDamage();
-
-            // ライフが残っていれば続行
             canSpawn = true;
             Invoke("SpawnPancake", 1.5f);
         }
