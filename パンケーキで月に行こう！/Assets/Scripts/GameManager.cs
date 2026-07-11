@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (resultPanel != null) resultPanel.SetActive(false);
 
-        Invoke("SpawnPancake", 0.5f);
+        Invoke("SpawnPancake", 3.0f);
     }
 
     private void HideGameUI()
